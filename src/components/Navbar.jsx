@@ -1,5 +1,30 @@
-const Navbar = () => {
+const Navbar = ({ walletAddress, setWalletAddress}) => {
     //fixed inset-0
+    const connectStargaze = async ()=> {
+        
+        if (!window.keplr) {
+            alert("Please install keplr extension");
+        } else {
+            const chainId = "stargaze-1";
+    
+            // Enabling before using the Keplr is recommended.
+            // This method will ask the user whether to allow access if they haven't visited this website.
+            // Also, it will request that the user unlock the wallet if the wallet is locked.
+            await window.keplr.enable(chainId);
+        
+            const offlineSigner = window.keplr.getOfflineSigner(chainId);
+        
+            // You can get the address/public keys by `getAccounts` method.
+            // It can return the array of address/public key.
+            // But, currently, Keplr extension manages only one address/public key pair.
+            // XXX: This line is needed to set the sender address for SigningCosmosClient.
+            const accounts = await offlineSigner.getAccounts();
+            
+            setWalletAddress(accounts[0].address);
+            // await addWallet("stargaze", accounts[0].address);
+    
+        }
+    }
     return ( 
         <header className="relative h-16 flex justify-between items-center px-4 pt-2">
             
@@ -48,13 +73,24 @@ const Navbar = () => {
                     ></path>
                 </g>
             </svg>
-            <button className="select-none h-fit flex items-center px-3 py-1 bg-transparent rounded-full border-solid border-black md:border-2  transition-transform ease-in-out hover:-translate-y-1 hover:scale-105 duration-300" >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 md:w-5 h-8 md:h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
-                </svg>
-                <span className="hidden md:block whitespace-nowrap  ml-1">Connect Wallet</span>
+            { walletAddress ? 
+                (<div className="select-none h-fit flex items-center px-3 py-1 bg-transparent rounded-full border-solid border-black md:border-2 " >
+                     
+                    <img src="/src/assets/stargaze.png" className="relative h-6 w-6"  alt="Stargaze logo" />
+                    
+                    <span className="hidden md:block whitespace-nowrap  ml-1">{`${walletAddress.substring(0, 5)}***${walletAddress.substring(walletAddress.length-3, walletAddress.length)}`}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="10" viewBox="0 0 256 256" > <path fill="none" d="M0 0H256V256H0z"></path> <path d="M215.4 92.9A8 8 0 00208 88H48a8 8 0 00-7.4 4.9 8.4 8.4 0 001.7 8.8l80 80a8.2 8.2 0 0011.4 0l80-80a8.4 8.4 0 001.7-8.8z"></path></svg>
+                </div>):
+                (<button onClick={connectStargaze} className="select-none h-fit flex items-center px-3 py-1 bg-transparent rounded-full border-solid border-black md:border-2  transition-transform ease-in-out hover:-translate-y-1 hover:scale-105 duration-300" >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 md:w-5 h-8 md:h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+                    </svg>
+                    <span className="hidden md:block whitespace-nowrap  ml-1">Connect Wallet</span>
+                
+                </button>)
+            }
             
-            </button>
+            {/* social buttons */}
             <div className="fixed right-0.5 bottom-4 z-30 flex flex-col gap-y-2 text-black " aria-label="social media section">      
                 <a href="https://twitter.com/cosmosape_nft" target="_blank" rel="noopener noreferrer" className="px-1 lg:px-3"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 256 256" ><path fill="none" d="M0 0H256V256H0z"></path><path d="M245.7 77.7l-30.2 30.1c-6 69.9-65 124.2-135.5 124.2-14.5 0-26.5-2.3-35.6-6.8-7.3-3.7-10.3-7.6-11.1-8.8a8 8 0 013.9-11.9c.2-.1 23.8-9.1 39.1-26.4a108.6 108.6 0 01-24.7-24.4c-13.7-18.6-28.2-50.9-19.5-99.1a8.1 8.1 0 015.5-6.2 8 8 0 018.1 1.9c.3.4 33.6 33.2 74.3 43.8V88a48.3 48.3 0 0148.6-48 48.2 48.2 0 0141 24H240a8 8 0 017.4 4.9 8.4 8.4 0 01-1.7 8.8z"></path></svg></a>
                     <a href="https://discord.gg/7bwXQU77bC" target="_blank" rel="noopener noreferrer" className="px-1 lg:px-3"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="20" viewBox="0 0 256 256" > <path fill="none" d="M0 0H256V256H0z"></path><path d="M247.3 169.8l-34-113.2a15.6 15.6 0 00-9.2-10.2h-.6l.6-.2A192.4 192.4 0 00169.6 36a8 8 0 00-9.4 6.3 7.9 7.9 0 006.2 9.4c4.5.9 8.9 2 13.2 3.2A8 8 0 01176 70h-.8a185.4 185.4 0 00-47.2-6 181.8 181.8 0 00-46.1 5.8 8 8 0 01-5.6-14.9h.1c4.3-1.2 8.7-2.3 13.2-3.2a8 8 0 006.3-9.4 8.1 8.1 0 00-9.4-6.3 191.2 191.2 0 00-34.6 10.4 15.6 15.6 0 00-9.2 10.2l-34 113.2a16 16 0 004.9 16.7 34.7 34.7 0 002.9 2.5h.1c16.2 13.2 37.5 23.3 61.5 29.1a6.3 6.3 0 001.9.3 8 8 0 001.9-15.8 160.3 160.3 0 01-31.3-11.1 8 8 0 018.6-13.2c19 8.4 42.9 13.7 68.8 13.7s49.8-5.3 68.8-13.7a8 8 0 018.6 13.2 160.3 160.3 0 01-31.3 11.1 8 8 0 001.9 15.8 6.3 6.3 0 001.9-.3c24-5.8 45.3-15.9 61.5-29.1h.1a34.7 34.7 0 002.9-2.5 16 16 0 004.9-16.7zM96 156a12 12 0 1112-12 12 12 0 01-12 12zm64 0a12 12 0 1112-12 12 12 0 01-12 12z"></path></svg></a>

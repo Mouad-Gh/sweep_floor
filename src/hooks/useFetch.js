@@ -9,9 +9,9 @@ function useFetch() {
 
   let requrest_data = {
         'asks_sorted_by_price': {
-            'collection': 'stars19y092mzr4szme4jfd5psnkkkvfayh25a6q5t2y0xshcpay9x6hhsgpqqca',
+            'collection': import.meta.env.VITE_NFT_CONTRACT_ADDRESS,
             'include_inactive': false,
-            'limit': 2
+            'limit': 100
         }
     };
 
@@ -28,7 +28,9 @@ function useFetch() {
         
         const res = await axios.get(request_url);
         const { data } = res;
-        setData(data.data.asks);
+        const filterData = data.data.asks.filter(ask => ask.sale_type !== 'auction')
+        console.log(filterData);
+        setData(filterData.slice(0, 2));
         setLoading(false);
       } catch (err) {
         setError(err);
