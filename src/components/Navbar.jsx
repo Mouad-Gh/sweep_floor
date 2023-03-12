@@ -76,10 +76,10 @@ const Navbar = ({ walletAddress, setWalletAddress}) => {
             { walletAddress ? 
                 (<div className="select-none h-fit flex items-center px-3 py-1 bg-transparent rounded-full border-solid border-black md:border-2 " >
                      
-                    <img src="/src/assets/stargaze.png" className="relative h-6 w-6"  alt="Stargaze logo" />
+                    <img src="/stargaze.png" className="relative h-6 w-6"  alt="Stargaze logo" />
                     
                     <span className="hidden md:block whitespace-nowrap  ml-1">{`${walletAddress.substring(0, 5)}***${walletAddress.substring(walletAddress.length-3, walletAddress.length)}`}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="20" height="10" viewBox="0 0 256 256" > <path fill="none" d="M0 0H256V256H0z"></path> <path d="M215.4 92.9A8 8 0 00208 88H48a8 8 0 00-7.4 4.9 8.4 8.4 0 001.7 8.8l80 80a8.2 8.2 0 0011.4 0l80-80a8.4 8.4 0 001.7-8.8z"></path></svg>
+                    
                 </div>):
                 (<button onClick={connectStargaze} className="select-none h-fit flex items-center px-3 py-1 bg-transparent rounded-full border-solid border-black md:border-2  transition-transform ease-in-out hover:-translate-y-1 hover:scale-105 duration-300" >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 md:w-5 h-8 md:h-5">

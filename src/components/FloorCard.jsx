@@ -88,7 +88,7 @@ const FloorCard = ({ask, walletAddress}) => {
                         </div>
                         <div className="relative -translate-y-1 cursor-pointer transition ease-in-out hover:-translate-y-2 hover:scale-105 duration-300">
                             <div className="rounded-md w-full bg-gradient-to-r p-[2px] from-[#7928ca] to-[#ff0080]">
-                                <div className="relative flex flex-col justify-between items-center h-full bg-black text-white rounded-md">
+                                <div data-tip="Connect your wallet first." className={`relative flex flex-col justify-between items-center h-full bg-black text-white rounded-md ${(!walletAddress) &&  'hover:disableSpan'}`}>
                                     <button  disabled={(!walletAddress)} onClick={handleSweep} className="text-xl wallet-adapter-button !bg-black !text-center flex justify-center items-center w-full !px-2 !h-8 md:!h-10 disabled:cursor-not-allowed">Sweep 🧹</button>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@ const FloorCard = ({ask, walletAddress}) => {
                     </div>
                 </div>
                 <div className="pb-3 pr-1 text-[12px] w-full ">
-                    <span className="block w-fit ml-auto text-[#70707080]">powred by apello</span>
+                    <span className="block w-fit ml-auto text-[#70707080]">powred by <a href="https://apello.xyz" target="_blank" rel="noopener noreferrer" className="text-violet">Apello</a></span>
                 </div>
             </div>
         </div>
