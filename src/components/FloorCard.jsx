@@ -81,7 +81,7 @@ const FloorCard = ({ask, walletAddress}) => {
                             <div className="flex flex-col justify-between">
                                 <p className="text-xs md:text-sm text-[#707070]">Buy Price</p>
                                 <div className="flex gap-2 items-center justify-center">
-                                    <img src="/src/assets/stargaze.png" alt="stargaze" width="14" height="14" />
+                                    <img src="/stargaze.png" alt="stargaze" width="14" height="14" />
                                     <p className="text-black text-sm md:text-md font-bold">{(Math.round(ask.price) / 1000000).toFixed(2)}</p>
                                 </div>
                             </div>
